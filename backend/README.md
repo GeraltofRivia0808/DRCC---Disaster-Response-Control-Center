@@ -81,40 +81,20 @@ npm run server
 
 The API runs on `http://localhost:3000`.
 
-## Create The Database In MySQL CLI
+## Complete MySQL CLI Commands (Run In Order)
 
-Open the MySQL CLI:
+Run the command below in your terminal to open MySQL CLI:
 
 ```bash
 mysql -u root -p
 ```
 
-Then create and select the database:
+After login, run this entire SQL block in order. This includes all required database, table, seed, and verification commands for the backend.
 
 ```sql
 CREATE DATABASE IF NOT EXISTS DisasterAlertSystem;
 USE DisasterAlertSystem;
-```
 
-## Create The Tables
-
-The current backend expects these tables to exist:
-
-- `Region`
-- `Disaster_Event`
-- `Alert`
-- `Shelter`
-- `Resource`
-- `Volunteer`
-- `Volunteer_Skills`
-- `Alert_Delivery_Channels`
-- `API_Log`
-- `Evacuation_Request`
-- `Damage_Report`
-
-Use this minimal schema to get started:
-
-```sql
 CREATE TABLE IF NOT EXISTS Region (
   region_id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100) NOT NULL
@@ -199,11 +179,7 @@ CREATE TABLE IF NOT EXISTS Damage_Report (
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (region_id) REFERENCES Region(region_id)
 );
-```
 
-## Sample Data
-
-```sql
 INSERT INTO Region (name) VALUES ('North Zone');
 
 INSERT INTO Disaster_Event (region_id, type, magnitude, severity_level, source_api)
@@ -223,7 +199,19 @@ VALUES ('Asha Patel', 'asha@example.com', 1, 'Available');
 
 INSERT INTO Volunteer_Skills (volunteer_id, skill)
 VALUES (1, 'First Aid');
+
+SHOW TABLES;
+
+SELECT * FROM Region;
+SELECT * FROM Disaster_Event;
+SELECT * FROM Alert;
+SELECT * FROM Shelter;
+SELECT * FROM Resource;
+SELECT * FROM Volunteer;
+SELECT * FROM Volunteer_Skills;
 ```
+
+If all commands run successfully, you can type `exit` to leave MySQL CLI and then start the backend with `npm run server`.
 
 ## API Endpoints
 
