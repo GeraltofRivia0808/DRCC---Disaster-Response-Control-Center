@@ -2,6 +2,47 @@
 
 This folder documents the backend service used by Vigilant Response. The backend currently runs from the repository root through `server.js`, but this guide collects the MySQL and API setup in one place for local development.
 
+## Creators
+
+- Arjun Jha
+- Avinash Nair
+
+## Backend Project Details
+
+The Vigilant Response backend provides the data layer and operational API for disaster response workflows. It serves read endpoints for dashboard visibility and write endpoints for action-taking operations such as resource consumption and volunteer assignment status updates.
+
+Backend responsibilities:
+
+- Query and transform disaster, alert, resource, and volunteer datasets.
+- Enforce lightweight request validation for update endpoints.
+- Return consistent JSON responses for frontend integration.
+- Surface debug routes for direct table-level inspection during development.
+
+Design principles:
+
+- Keep the API simple and predictable for frontend consumption.
+- Use SQL joins and grouping for efficient server-side aggregation.
+- Keep credentials externalized through environment variables.
+- Keep local setup reproducible via explicit schema and seed commands.
+
+## Backend Architecture
+
+- Runtime: Node.js + Express.
+- Data access: MySQL (`mysql2`) connection pool in `db.js`.
+- Startup validation: database connectivity check before serving traffic.
+- Endpoint families:
+  - `/api/disasters`, `/api/alerts`, `/api/resources`, `/api/volunteers`
+  - mutation endpoints for resource quantity and volunteer status
+  - `/api/debug/*` raw table endpoints for diagnostics
+
+Request lifecycle:
+
+1. Client sends request to an API route.
+2. Route handler validates payload when needed.
+3. Handler executes SQL query or update through pooled connection.
+4. Handler maps results into API response shape.
+5. Response is returned with success/error metadata.
+
 ## Requirements
 
 - Node.js 18 or newer

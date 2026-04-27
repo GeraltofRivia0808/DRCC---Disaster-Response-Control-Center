@@ -2,6 +2,43 @@
 
 Vigilant Response is a split frontend/backend project for disaster response workflows.
 
+## Creators
+
+- Arjun Jha
+- Avinash Nair
+
+## Project Details
+
+Vigilant Response is designed to support operational awareness and coordination during emergency events. The project combines a responsive web interface with a MySQL-backed API so teams can monitor disaster events, review active alerts, track resource availability, and manage volunteer status in one system.
+
+Core goals:
+
+- Provide a live view of disaster-related records from a central database.
+- Make resource usage and volunteer status updates fast and reliable.
+- Keep integration simple for local development and team demos.
+
+Main capabilities:
+
+- Disaster feed with normalized display values for severity and magnitude.
+- Alert listing for event communication tracking.
+- Shelter resource tracking with quantity updates.
+- Volunteer directory with status management.
+- Debug endpoints for raw-table diagnostics.
+
+## Technical Architecture
+
+- Frontend: React + TypeScript + Vite (`frontend/`) for the operational dashboard and UI workflows.
+- Backend API: Express server (`server.js`) with route handlers that query and transform MySQL data.
+- Database: MySQL schema centered around `Disaster_Event`, `Alert`, `Resource`, and `Volunteer`.
+- Configuration: Environment-based database settings through `.env` and `db.js`.
+
+System flow (high level):
+
+1. Frontend calls backend API endpoints under `/api`.
+2. Backend validates input and executes SQL through a pooled MySQL connection.
+3. Backend returns normalized JSON payloads used directly by the UI.
+4. Status updates (resource usage and volunteer availability) are persisted in MySQL.
+
 ## Repository Layout
 
 - `frontend/` contains the Vite + React + TypeScript app.
@@ -59,6 +96,16 @@ Detailed MySQL CLI steps live in [backend/README.md](backend/README.md). In shor
 - `GET /api/volunteers` returns volunteers and their skills.
 - `POST /api/volunteers/update-status` updates volunteer availability.
 - `GET /api/debug/*` exposes raw table snapshots for troubleshooting.
+
+## Data Model Summary
+
+- `Region`: geographical grouping for operations.
+- `Disaster_Event`: event type, magnitude/severity, source, and timestamp.
+- `Alert`: event-linked warning or communication records.
+- `Shelter` and `Resource`: shelter inventory and supply quantities.
+- `Volunteer` and `Volunteer_Skills`: volunteer identity, status, and skill metadata.
+
+See [backend/README.md](backend/README.md) for the SQL setup script and sample seed data.
 
 ## Troubleshooting
 
